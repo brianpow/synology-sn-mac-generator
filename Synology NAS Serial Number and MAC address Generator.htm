@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Synology NAS Serial Number and MAC address Generator</title>
+<script type='text/javascript'>//<![CDATA[
+window.onload=function(){
+$=function(id){ 
+return document.getElementById(id.substr(1));
+};
+
+$("#generate").onclick=function () {
+    refsn = $("#sn").value;
+    model = refsn.substr(0, 7);
+    mac = parseInt($("#mac").value, 16);
+    sn = parseInt(refsn.substr(7, 3));
+    sndelta = parseInt($("#sndelta").value || Math.floor(Math.random() * 100 + 1));
+    newsn = model + (sn + sndelta);
+    $("#newsn").value=newsn;
+    macdelta = sndelta * 4;
+    mac += macdelta;
+    newmac = "";
+    for (i = 0; i < 4; i++)
+    newmac += (mac + i).toString(16).toUpperCase() + "\n";
+    $("#newmac").innerHTML=newmac;
+};
+$("#generate").click();
+}
+//]]> 
+</script>
+</head>
+<body>
+<h1>Synology NAS Serial Number and MAC address Generator</h1>
+
+
+<h2>For user who lose their serial number or MAC address of their Synology NAS. Not to be used on non-Synology NAS running <a href="http://xpenology.me">XPEnology</a>!</h2>
+
+<p>Paste the generated serial number in syslinux.cfg, and change the MAC address of your network card (You need the tools from manufacturer to do this). Sorry, new serial format (e.g. 1480MIN######) is NOT supported</p>Reference SN:
+<input id=sn value="B6JFN00845"></input>
+<br>SN Delta:
+<input id=sndelta value="" placeholder="blank=random"></input>
+<br>MAC:
+<input id=mac value="0011320C36ED"></input>
+<br>
+<input id=generate type=button value="Generate"></input>
+<hr>Result:
+<br>SN:
+<input id=newsn value=""></input>
+<br>MAC:
+<textarea id=newmac rows=4></textarea>
+<br>
+<p>Ref: <a href="http://xpenology.me/how-to-generate-synology-mac-and-serial-valid-pair/">How to generate Synology MAC and serial valid pair</a>
+</p>
+</body>
+</html>
